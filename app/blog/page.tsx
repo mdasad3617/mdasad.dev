@@ -1,24 +1,67 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { supabase } from "@/lib/supabase"
+import { getSupabase } from "@/lib/supabase"
 import { formatDate } from "@/lib/utils"
 import { Calendar, Tag } from "lucide-react"
 import Link from "next/link"
 
-async function getBlogPosts() {
-  const { data: posts, error } = await supabase
-    .from("blog_posts")
-    .select("*")
-    .eq("status", "published")
-    .order("published_at", { ascending: false })
+// Mock data for when Supabase is not configured
+const mockPosts = [
+  {
+    id: "1",
+    title: "Building Scalable Microservices with NestJS",
+    slug: "building-scalable-microservices-nestjs",
+    excerpt: "Learn how to architect and build enterprise-grade microservices using NestJS framework with TypeScript.",
+    tags: ["NestJS", "Microservices", "Node.js", "TypeScript"],
+    published_at: "2024-01-15T10:00:00Z",
+    created_at: "2024-01-15T10:00:00Z",
+  },
+  {
+    id: "2",
+    title: "Advanced TypeScript Patterns for Backend Development",
+    slug: "advanced-typescript-patterns-backend",
+    excerpt:
+      "Explore advanced TypeScript patterns that can improve your backend development workflow and code quality.",
+    tags: ["TypeScript", "Backend", "Patterns", "Node.js"],
+    published_at: "2024-01-10T10:00:00Z",
+    created_at: "2024-01-10T10:00:00Z",
+  },
+  {
+    id: "3",
+    title: "Optimizing Database Performance in Enterprise Applications",
+    slug: "optimizing-database-performance-enterprise",
+    excerpt: "Best practices for optimizing database performance in large-scale enterprise applications.",
+    tags: ["Database", "Performance", "PostgreSQL", "Optimization"],
+    published_at: "2024-01-05T10:00:00Z",
+    created_at: "2024-01-05T10:00:00Z",
+  },
+]
 
-  if (error) {
-    console.error("Error fetching blog posts:", error)
-    return []
+async function getBlogPosts() {
+  const supabase = getSupabase()
+
+  if (!supabase) {
+    return mockPosts
   }
 
-  return posts || []
+  try {
+    const { data: posts, error } = await supabase
+      .from("blog_posts")
+      .select("*")
+      .eq("status", "published")
+      .order("published_at", { ascending: false })
+
+    if (error) {
+      console.error("Error fetching blog posts:", error)
+      return mockPosts
+    }
+
+    return posts || mockPosts
+  } catch (error) {
+    console.error("Error fetching blog posts:", error)
+    return mockPosts
+  }
 }
 
 export default async function BlogPage() {

@@ -1,12 +1,16 @@
 import { createClient } from "@supabase/supabase-js"
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+// Environment variables with fallbacks for development
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || "https://placeholder.supabase.co"
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "placeholder-key"
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey)
+// Only create client if we have real credentials
+export const supabase = supabaseUrl.includes("placeholder") ? null : createClient(supabaseUrl, supabaseAnonKey)
 
-// Admin client for server-side operations
-export const supabaseAdmin = createClient(supabaseUrl, process.env.SUPABASE_SERVICE_ROLE_KEY!)
+// Admin client for server-side operations (only if we have service role key)
+export const supabaseAdmin = process.env.SUPABASE_SERVICE_ROLE_KEY
+  ? createClient(supabaseUrl, process.env.SUPABASE_SERVICE_ROLE_KEY)
+  : null
 
 export type Database = {
   public: {
@@ -215,4 +219,13 @@ export type Database = {
       }
     }
   }
+}
+
+// Helper function to safely use Supabase
+export function getSupabase() {
+  if (!supabase) {
+    console.warn("Supabase not configured. Using mock data.")
+    return null
+  }
+  return supabase
 }
