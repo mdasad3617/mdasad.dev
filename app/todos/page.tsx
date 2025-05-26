@@ -1,6 +1,3 @@
-"use client"
-
-import { MainLayout } from "@/components/layout/main-layout"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { CheckSquare, Calendar, Clock, AlertCircle } from "lucide-react"
@@ -101,56 +98,54 @@ export default async function TodosPage() {
   const stats = await getTodoStats()
 
   return (
-    <MainLayout>
-      <div className="container mx-auto px-4 py-8 space-y-8">
-        <div className="space-y-4">
-          <h1 className="text-4xl font-bold">Todos</h1>
-          <p className="text-muted-foreground text-lg">Task management and productivity tracking.</p>
-        </div>
-
-        {/* Stats */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <Card>
-            <CardContent className="p-4 text-center">
-              <div className="text-2xl font-bold">{stats.total}</div>
-              <div className="text-sm text-muted-foreground">Total Tasks</div>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardContent className="p-4 text-center">
-              <div className="text-2xl font-bold text-green-600">{stats.completed}</div>
-              <div className="text-sm text-muted-foreground">Completed</div>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardContent className="p-4 text-center">
-              <div className="text-2xl font-bold text-blue-600">{stats.pending}</div>
-              <div className="text-sm text-muted-foreground">Pending</div>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardContent className="p-4 text-center">
-              <div className="text-2xl font-bold text-red-600">{stats.overdue}</div>
-              <div className="text-sm text-muted-foreground">Overdue</div>
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Todos Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {todos.map((todo) => (
-            <TodoCard key={todo.id} todo={todo} />
-          ))}
-        </div>
-
-        {todos.length === 0 && (
-          <div className="text-center py-12">
-            <CheckSquare className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
-            <h3 className="text-lg font-semibold mb-2">No todos found</h3>
-            <p className="text-muted-foreground">Tasks will be added soon.</p>
-          </div>
-        )}
+    <div className="container mx-auto px-4 py-8 space-y-8">
+      <div className="space-y-4">
+        <h1 className="text-4xl font-bold">Todos</h1>
+        <p className="text-muted-foreground text-lg">Task management and productivity tracking.</p>
       </div>
-    </MainLayout>
+
+      {/* Stats */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <Card>
+          <CardContent className="p-4 text-center">
+            <div className="text-2xl font-bold">{stats.total}</div>
+            <div className="text-sm text-muted-foreground">Total Tasks</div>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardContent className="p-4 text-center">
+            <div className="text-2xl font-bold text-green-600">{stats.completed}</div>
+            <div className="text-sm text-muted-foreground">Completed</div>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardContent className="p-4 text-center">
+            <div className="text-2xl font-bold text-blue-600">{stats.pending}</div>
+            <div className="text-sm text-muted-foreground">Pending</div>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardContent className="p-4 text-center">
+            <div className="text-2xl font-bold text-red-600">{stats.overdue}</div>
+            <div className="text-sm text-muted-foreground">Overdue</div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Todos Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {todos.map((todo) => (
+          <TodoCard key={todo.id} todo={todo} />
+        ))}
+      </div>
+
+      {todos.length === 0 && (
+        <div className="text-center py-12">
+          <CheckSquare className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
+          <h3 className="text-lg font-semibold mb-2">No todos found</h3>
+          <p className="text-muted-foreground">Tasks will be added soon.</p>
+        </div>
+      )}
+    </div>
   )
 }

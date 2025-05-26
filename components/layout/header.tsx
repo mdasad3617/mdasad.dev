@@ -2,11 +2,11 @@
 
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { useTheme } from "@/contexts/theme-context"
+import { useTheme } from "next-themes"
 import { Moon, Sun, Github, Mail } from "lucide-react"
 
 export function Header() {
-  const { theme, toggleTheme } = useTheme()
+  const { theme, setTheme } = useTheme()
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -47,7 +47,7 @@ export function Header() {
                 <Github className="h-4 w-4" />
               </Link>
             </Button>
-            <Button variant="ghost" size="sm" onClick={toggleTheme}>
+            <Button variant="ghost" size="sm" onClick={() => setTheme(theme === "dark" ? "light" : "dark")}>
               {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
             </Button>
           </nav>
