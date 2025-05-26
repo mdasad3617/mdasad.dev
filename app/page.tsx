@@ -180,9 +180,9 @@ export default async function HomePage() {
                   )}
                 </div>
                 <div className="flex gap-2">
-                  {project.github_url && (
+                  {project.repository_url && (
                     <Button size="sm" variant="outline" asChild>
-                      <Link href={project.github_url} target="_blank">
+                      <Link href={project.repository_url} target="_blank">
                         <Github className="h-4 w-4" />
                       </Link>
                     </Button>
